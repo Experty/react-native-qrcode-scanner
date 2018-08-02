@@ -15,11 +15,7 @@ import {
   PermissionsAndroid
 } from 'react-native';
 
-import Permissions from 'react-native-permissions'
 import { RNCamera as Camera } from 'react-native-camera'
-
-const PERMISSION_AUTHORIZED = 'authorized';
-const CAMERA_PERMISSION = 'camera';
 
 export default class QRCodeScanner extends Component {
   static propTypes = {
@@ -101,14 +97,7 @@ export default class QRCodeScanner extends Component {
   }
 
   componentWillMount() {
-    if (Platform.OS === 'ios') {
-      Permissions.request(CAMERA_PERMISSION).then(response => {
-        this.setState({
-          isAuthorized: response === PERMISSION_AUTHORIZED,
-          isAuthorizationChecked: true
-        });
-      });
-    } else if (Platform.OS === 'android' && this.props.checkAndroid6Permissions) {
+    if (Platform.OS === 'android' && this.props.checkAndroid6Permissions) {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
           'title': this.props.permissionDialogTitle,
           'message':  this.props.permissionDialogMessage,
@@ -196,8 +185,8 @@ export default class QRCodeScanner extends Component {
               opacity: this.state.fadeInOpacity,
               backgroundColor: 'transparent'
             }}>
-            <Camera 
-              style={[styles.camera, this.props.cameraStyle]} 
+            <Camera
+              style={[styles.camera, this.props.cameraStyle]}
               onBarCodeRead={this._handleBarCodeRead.bind(this)}
               type={this.props.cameraType}
             >
